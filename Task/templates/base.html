@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe('pk_test_51OJy7mF4fC4hN7vUNOpJiIAFzuvBzBTv6P51LE9ZEc69GvAlFlGaAOEsYYMVs0jo0mjgCk5JDJpbUvguBsHG3UwY00ByKCrORQ');
+    </script>
+</head>
+<body>
+<header class="p-3 text-bg-dark">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="{% url 'home' %}" class="nav-link px-2 text-white">Товары</a></li>
+                <li><a href="{% url 'bag' %}" class="nav-link px-2 text-white">Корзина</a></li>
+            </ul>
+
+            {% if not user.is_authenticated %}
+            <a href="{% url 'login' %}">
+                <button type="button" class="btn btn-outline-light me-2">Войти</button>
+            </a>
+            <a href="{% url 'register' %}">
+                <button type="button" class="btn btn-outline-light me-2">Регистрация</button>
+            </a>
+            {% else %}
+            <a href="{% url 'logout' %}">
+                <button type="button" class="btn btn-warning">Выйти</button>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</header>
+{% block content %}
+{% endblock %}
+</body>
+</html>

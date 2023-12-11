@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+<div class="jumbotron text-center">
+    <h1 class="display-4">Добро пожаловать в ваш заказ</h1>
+    <p class="lead">Ваш заказ состоит из следующих продуктов</p>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Ваш заказ</h2>
+            <ul class="list-group">
+                {% for item in bag %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{item.item.name}}
+                    <span class="badge badge-primary badge-pill text-black">Количество: {{ item.quantity }}</span>
+                    <span class="badge badge-primary badge-pill text-black">{{ item.get_price }}{{ item.item.get_currency_sign}}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Заключение</h5>
+                    <p class="card-text">У вас {{ bag|total_price }} вещи.</p>
+                    <form method="get" action="{% url 'payment' %}">
+                        <label for="currency">Выберите Валюту:</label>
+                        <select id="currency" name="currency" class="form-control mb-2">
+                            <option value="USD">Доллар</option>
+                            <option value="EUR">Евро</option>
+                            <option value="JPY">Йен</option>
+                            <option value="TRY">Лиры</option>
+                        </select>
+                        <label for="coupon">Введите промокод</label>
+                        <input type="text" id="coupon" name="coupon" class="form-control mb-2"
+                               placeholder="Введите ваш промокод">
+                        {% if bag|total_price > 0 %}
+                        <button type="submit" class="btn btn-primary btn-block">Приступить к оплате</button>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
