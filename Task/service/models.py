@@ -30,7 +30,7 @@ class Tax(models.Model):
         ("txcd_10000000", "General - Electronically Supplied Services"),
         ("txcd_00000000", "Nontaxable"),
     )
-    name = models.CharField(choices=TAX_CHOICES,default=("txcd_00000000", "Nontaxable"),max_length=100)
+    name = models.CharField(choices=TAX_CHOICES, default=("txcd_00000000", "Nontaxable"), max_length=100)
 
     def get_code(self):
         for code, tax_name in self.TAX_CHOICES:
@@ -40,6 +40,7 @@ class Tax(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Item(models.Model):
     CURRENCY_CHOICES = (
@@ -54,7 +55,8 @@ class Item(models.Model):
     currency = models.CharField(max_length=20, choices=CURRENCY_CHOICES, default=('$', 'dollar'))
     image = models.ImageField(upload_to='static/images/%Y/%m/%d/', blank=True)
     amount = models.IntegerField(default=0)
-    tax = models.ForeignKey("Tax",on_delete=models.CASCADE,blank=True)
+    tax = models.ForeignKey("Tax", on_delete=models.CASCADE, blank=True)
+
     def __str__(self):
         return self.name
 
